@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>JINBYE.VIP — Catálogo</title>
+<style>
+  :root {
+    --red:#DC1E14;
+    --red2:#ff3b30;
+    --bg:#0a0a0a;
+    --bg2:#111;
+    --bg3:#181818;
+    --border:rgba(255,255,255,0.08);
+    --text:#fff;
+    --muted:rgba(255,255,255,0.45);
+    --card:#141414;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,sans-serif;min-height:100vh}
+
+  /* ── TOP BAR ── */
+  .topbar{background:var(--red);height:4px}
+  header{
+    background:var(--bg2);
+    border-bottom:1px solid var(--border);
+    padding:16px 20px;
+    display:flex;align-items:center;justify-content:space-between;
+    position:sticky;top:0;z-index:100
+  }
+  .logo-text{font-size:22px;font-weight:900;letter-spacing:-0.5px}
+  .logo-text span{color:var(--red)}
+  .header-sub{font-size:11px;color:var(--muted);letter-spacing:.12em;margin-top:2px}
+  .header-right{display:flex;align-items:center;gap:12px}
+  .wa-btn{
+    background:var(--red);color:#fff;
+    font-size:12px;font-weight:700;
+    padding:8px 16px;border-radius:20px;
+    text-decoration:none;letter-spacing:.05em;
+    white-space:nowrap
+  }
+  .cart-btn{
+    background:var(--bg3);border:1px solid var(--border);
+    color:#fff;font-size:12px;font-weight:700;
+    padding:8px 14px;border-radius:20px;
+    cursor:pointer;display:flex;align-items:center;gap:6px
+  }
+  #cart-count{
+    background:var(--red);color:#fff;
+    font-size:10px;font-weight:700;
+    width:18px;height:18px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center
+  }
+
+  /* ── HERO ── */
+  .hero{
+    background:linear-gradient(135deg,#0a0a0a 60%,#1a0a08);
+    padding:40px 20px 32px;
+    text-align:center;
+    border-bottom:1px solid var(--border)
+  }
+  .hero-badge{
+    display:inline-block;background:var(--red);
+    font-size:10px;font-weight:700;letter-spacing:.15em;
+    padding:4px 12px;border-radius:20px;margin-bottom:12px
+  }
+  .hero h1{font-size:clamp(26px,6vw,44px);font-weight:900;line-height:1.1;letter-spacing:-1px}
+  .hero h1 em{color:var(--red);font-style:normal}
+  .hero p{color:var(--muted);font-size:14px;margin-top:8px;line-height:1.6}
+  .hero-pills{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-top:16px}
+  .pill{
+    background:var(--bg3);border:1px solid var(--border);
+    font-size:12px;padding:5px 12px;border-radius:20px;color:var(--muted)
+  }
+
+  /* ── FILTERS ── */
+  .filters{
+    padding:16px 20px;
+    display:flex;gap:8px;flex-wrap:wrap;
+    border-bottom:1px solid var(--border);
+    background:var(--bg2)
+  }
+  .filter-btn{
+    background:var(--bg3);border:1px solid var(--border);
+    color:var(--muted);font-size:12px;font-weight:600;
+    padding:7px 14px;border-radius:20px;cursor:pointer;
+    transition:.2s;white-space:nowrap
+  }
+  .filter-btn.active,.filter-btn:hover{
+    background:var(--red);border-color:var(--red);color:#fff
+  }
+
+  /* ── SEARCH ── */
+  .search-wrap{padding:14px 20px;background:var(--bg2)}
+  .search-input{
+    width:100%;background:var(--bg3);border:1px solid var(--border);
+    color:#fff;font-size:14px;padding:10px 16px;border-radius:12px;
+    outline:none;transition:.2s
+  }
+  .search-input::placeholder{color:var(--muted)}
+  .search-input:focus{border-color:var(--red)}
+
+  /* ── GRID ── */
+  .grid-wrap{padding:20px}
+  .section-title{
+    font-size:13px;font-weight:700;color:var(--muted);
+    letter-spacing:.12em;text-transform:uppercase;
+    margin-bottom:16px;display:flex;align-items:center;gap:8px
+  }
+  .section-title::after{content:'';flex:1;height:1px;background:var(--border)}
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(160px,1fr));
+    gap:12px
+  }
+
+  /* ── CARD ── */
+  .card{
+    background:var(--card);border:1px solid var(--border);
+    border-radius:16px;overflow:hidden;cursor:pointer;
+    transition:transform .2s,border-color .2s
+  }
+  .card:hover{transform:translateY(-3px);border-color:rgba(220,30,20,.4)}
+  .card-img{
+    width:100%;aspect-ratio:1;
+    background:#fff;
+    display:flex;align-items:center;justify-content:center;
+    font-size:56px;position:relative;overflow:hidden;
+    border-radius:14px 14px 0 0
+  }
+  .card-img img{
+    width:100%;height:100%;
+    object-fit:contain;
+    padding:8px;
+    transition:transform .3s ease
+  }
+  .card:hover .card-img img{transform:scale(1.07)}
+  .badge-new{
+    position:absolute;top:8px;left:8px;
+    background:var(--red);color:#fff;
+    font-size:9px;font-weight:700;letter-spacing:.1em;
+    padding:3px 8px;border-radius:10px
+  }
+  .badge-hot{
+    position:absolute;top:8px;left:8px;
+    background:#ff9500;color:#fff;
+    font-size:9px;font-weight:700;
+    padding:3px 8px;border-radius:10px
+  }
+  .card-body{padding:12px}
+  .card-brand{font-size:10px;color:var(--muted);font-weight:700;letter-spacing:.1em;margin-bottom:3px}
+  .card-name{font-size:13px;font-weight:700;line-height:1.3;margin-bottom:8px}
+  .card-footer{display:flex;align-items:center;justify-content:space-between}
+  .card-price{font-size:15px;font-weight:800;color:#fff}
+  .add-btn{
+    background:var(--red);border:none;color:#fff;
+    font-size:11px;font-weight:700;
+    padding:5px 10px;border-radius:8px;cursor:pointer;
+    transition:.15s
+  }
+  .add-btn:hover{background:var(--red2)}
+  .card-sizes{
+    display:flex;gap:4px;flex-wrap:wrap;margin-top:8px
+  }
+  .size-tag{
+    background:var(--bg);border:1px solid var(--border);
+    font-size:9px;font-weight:700;padding:2px 6px;border-radius:6px;
+    color:var(--muted)
+  }
+
+  /* ── CART PANEL ── */
+  .cart-overlay{
+    position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:200;
+    display:none;justify-content:flex-end
+  }
+  .cart-overlay.open{display:flex}
+  .cart-panel{
+    background:var(--bg2);width:min(360px,100vw);
+    height:100vh;overflow-y:auto;
+    border-left:1px solid var(--border);
+    display:flex;flex-direction:column
+  }
+  .cart-header{
+    padding:20px;border-bottom:1px solid var(--border);
+    display:flex;align-items:center;justify-content:space-between;
+    position:sticky;top:0;background:var(--bg2)
+  }
+  .cart-title{font-size:16px;font-weight:800}
+  .close-btn{background:none;border:none;color:var(--muted);font-size:20px;cursor:pointer;line-height:1}
+  .cart-items{flex:1;padding:16px}
+  .cart-item{
+    display:flex;gap:12px;align-items:flex-start;
+    padding:12px 0;border-bottom:1px solid var(--border)
+  }
+  .ci-img{
+    width:52px;height:52px;background:var(--bg3);border-radius:8px;
+    display:flex;align-items:center;justify-content:center;font-size:26px;flex-shrink:0
+  }
+  .ci-name{font-size:13px;font-weight:600}
+  .ci-price{font-size:12px;color:var(--muted);margin-top:2px}
+  .ci-remove{background:none;border:none;color:var(--muted);cursor:pointer;font-size:14px;margin-left:auto;flex-shrink:0}
+  .cart-footer{
+    padding:16px;border-top:1px solid var(--border);
+    background:var(--bg2);position:sticky;bottom:0
+  }
+  .cart-total{font-size:18px;font-weight:800;margin-bottom:12px}
+  .cart-total span{color:var(--red)}
+  .wa-cart-btn{
+    display:block;width:100%;background:var(--red);color:#fff;
+    font-size:14px;font-weight:700;padding:14px;
+    border:none;border-radius:12px;cursor:pointer;
+    text-align:center;text-decoration:none;letter-spacing:.05em
+  }
+  .cart-empty{
+    flex:1;display:flex;align-items:center;justify-content:center;
+    flex-direction:column;gap:8px;color:var(--muted);
+    font-size:14px;padding:40px
+  }
+  .cart-empty-icon{font-size:48px}
+
+  /* ── MODAL ── */
+  .modal-overlay{
+    position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:300;
+    display:none;align-items:center;justify-content:center;padding:20px
+  }
+  .modal-overlay.open{display:flex}
+  .modal{
+    background:var(--bg2);border:1px solid var(--border);
+    border-radius:20px;width:min(480px,100%);max-height:90vh;overflow-y:auto
+  }
+  .modal-img{
+    width:100%;aspect-ratio:1;background:var(--bg3);
+    display:flex;align-items:center;justify-content:center;
+    font-size:96px;border-radius:20px 20px 0 0
+  }
+  .modal-img img{width:90%;height:90%;object-fit:contain;border-radius:0}
+  .modal-body{padding:20px}
+  .modal-brand{font-size:11px;color:var(--muted);font-weight:700;letter-spacing:.1em;margin-bottom:4px}
+  .modal-name{font-size:22px;font-weight:900;line-height:1.1;margin-bottom:4px}
+  .modal-price{font-size:26px;font-weight:800;color:var(--red);margin-bottom:16px}
+  .modal-sizes-title{font-size:12px;color:var(--muted);font-weight:700;letter-spacing:.1em;margin-bottom:8px}
+  .modal-sizes{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px}
+  .msize{
+    background:var(--bg3);border:1px solid var(--border);
+    font-size:13px;font-weight:700;padding:8px 14px;border-radius:10px;
+    cursor:pointer;transition:.15s;color:#fff
+  }
+  .msize:hover,.msize.sel{background:var(--red);border-color:var(--red)}
+  .modal-btns{display:flex;gap:8px}
+  .modal-add{
+    flex:1;background:var(--red);color:#fff;
+    font-size:14px;font-weight:700;padding:13px;
+    border:none;border-radius:12px;cursor:pointer
+  }
+  .modal-close{
+    background:var(--bg3);border:1px solid var(--border);color:#fff;
+    font-size:14px;font-weight:700;padding:13px 16px;
+    border-radius:12px;cursor:pointer
+  }
+
+  /* ── ADMIN PANEL ── */
+  .admin-fab{
+    position:fixed;bottom:24px;right:24px;z-index:150;
+    background:var(--red);color:#fff;
+    width:52px;height:52px;border-radius:50%;border:none;
+    font-size:22px;cursor:pointer;
+    box-shadow:0 4px 20px rgba(220,30,20,.4)
+  }
+  .admin-overlay{
+    position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:400;
+    display:none;align-items:center;justify-content:center;padding:20px
+  }
+  .admin-overlay.open{display:flex}
+  .admin-panel{
+    background:var(--bg2);border:1px solid var(--border);
+    border-radius:20px;width:min(500px,100%);max-height:90vh;overflow-y:auto;padding:24px
+  }
+  .admin-panel h2{font-size:18px;font-weight:800;margin-bottom:20px}
+  .form-group{margin-bottom:14px}
+  .form-group label{display:block;font-size:12px;color:var(--muted);font-weight:700;letter-spacing:.08em;margin-bottom:5px}
+  .form-input{
+    width:100%;background:var(--bg3);border:1px solid var(--border);
+    color:#fff;font-size:14px;padding:10px 14px;border-radius:10px;
+    outline:none;transition:.2s
+  }
+  .form-input:focus{border-color:var(--red)}
+  .form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .btn-save{
+    width:100%;background:var(--red);color:#fff;
+    font-size:14px;font-weight:700;padding:13px;
+    border:none;border-radius:12px;cursor:pointer;margin-top:6px
+  }
+  .btn-cancel{
+    width:100%;background:var(--bg3);border:1px solid var(--border);color:#fff;
+    font-size:14px;font-weight:700;padding:13px;
+    border-radius:12px;cursor:pointer;margin-top:8px
+  }
+  .admin-pass{text-align:center;padding:20px 0}
+  .admin-pass p{color:var(--muted);font-size:13px;margin-bottom:12px}
+
+  /* ── FOOTER ── */
+  footer{
+    background:var(--bg2);border-top:1px solid var(--border);
+    padding:24px 20px;text-align:center
+  }
+  footer .f-logo{font-size:18px;font-weight:900;letter-spacing:-0.5px;margin-bottom:4px}
+  footer .f-logo span{color:var(--red)}
+  footer p{font-size:12px;color:var(--muted);line-height:1.7}
+
+  .no-results{
+    text-align:center;padding:60px 20px;color:var(--muted)
+  }
+  .no-results-icon{font-size:48px;margin-bottom:12px}
+
+  @media(max-width:480px){
+    .grid{grid-template-columns:repeat(2,1fr)}
+    .header-sub{display:none}
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar"></div>
+
+<header>
+  <div>
+    <div class="logo-text">JINBYE<span>.VIP</span></div>
+    <div class="header-sub">STREETWEAR · CHILE</div>
+  </div>
+  <div class="header-right">
+    <a class="wa-btn" href="https://wa.me/56984268674?text=Hola!%20vi%20el%20catálogo%20y%20quiero%20cotizar" target="_blank">💬 Cotizar</a>
+    <button class="cart-btn" onclick="toggleCart()">
+      🛒 <span id="cart-count">0</span>
+    </button>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="hero-badge">🔥 CATÁLOGO OFICIAL</div>
+  <h1>Zapatillas, Ropa<br>&amp; <em>Accesorios</em></h1>
+  <p>Envíos a todo Chile · Escríbenos para cotizar tu talla</p>
+  <div class="hero-pills">
+    <span class="pill">📦 Envío nacional</span>
+    <span class="pill">✅ Calidad garantizada</span>
+    <span class="pill">💬 Atención rápida</span>
+  </div>
+</div>
+
+<div class="search-wrap">
+  <input class="search-input" type="text" placeholder="🔍  Buscar modelo, marca..." oninput="filterProducts()" id="search-box"/>
+</div>
+
+<div class="filters" id="filter-bar">
+  <button class="filter-btn active" onclick="setFilter('todos',this)">Todos</button>
+  <button class="filter-btn" onclick="setFilter('nike',this)">Nike</button>
+  <button class="filter-btn" onclick="setFilter('jordan',this)">Jordan</button>
+  <button class="filter-btn" onclick="setFilter('adidas',this)">Adidas</button>
+  <button class="filter-btn" onclick="setFilter('new balance',this)">New Balance</button>
+  <button class="filter-btn" onclick="setFilter('vans',this)">Vans</button>
+  <button class="filter-btn" onclick="setFilter('converse',this)">Converse</button>
+  <button class="filter-btn" onclick="setFilter('puma',this)">Puma</button>
+  <button class="filter-btn" onclick="setFilter('ropa',this)">Ropa</button>
+  <button class="filter-btn" onclick="setFilter('accesorios',this)">Accesorios</button>
+</div>
+
+<div class="grid-wrap">
+  <div class="section-title" id="count-label">Todos los productos</div>
+  <div class="grid" id="product-grid"></div>
+  <div class="no-results" id="no-results" style="display:none">
+    <div class="no-results-icon">👟</div>
+    <p>No encontramos ese modelo.<br>¡Escríbenos y lo conseguimos!</p>
+    <a class="wa-btn" style="display:inline-block;margin-top:12px" href="https://wa.me/56984268674" target="_blank">💬 Consultar</a>
+  </div>
+</div>
+
+<footer>
+  <div class="f-logo">JINBYE<span>.VIP</span></div>
+  <p>
+    @jinbye.vip en Instagram<br>
+    Envíos a todo Chile · Preguntas por WhatsApp<br>
+    <span style="color:var(--red)">Los precios pueden variar · Consulta disponibilidad</span>
+  </p>
+  <div style="margin-top:20px;padding-top:16px;border-top:1px solid var(--border);text-align:left;max-width:500px;margin-left:auto;margin-right:auto">
+    <p style="font-size:11px;color:var(--muted);font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px">📡 CÓMO SUBIR ESTE CATÁLOGO GRATIS</p>
+    <p style="font-size:12px;color:var(--muted);line-height:1.8;margin-bottom:6px">
+      <strong style="color:#fff">Opción 1 — Netlify (más fácil, 2 minutos):</strong><br>
+      1. Ve a <strong style="color:var(--red)">netlify.com/drop</strong> desde tu computador<br>
+      2. Arrastra este archivo HTML ahí<br>
+      3. Te dan un link tipo <em>jinbye.netlify.app</em> ¡listo!
+    </p>
+    <p style="font-size:12px;color:var(--muted);line-height:1.8;margin-bottom:6px">
+      <strong style="color:#fff">Opción 2 — Tiiny.host (desde el celular):</strong><br>
+      1. Ve a <strong style="color:var(--red)">tiiny.host</strong><br>
+      2. Sube el archivo HTML<br>
+      3. Obtén tu link en segundos
+    </p>
+    <p style="font-size:12px;color:var(--muted);line-height:1.8">
+      <strong style="color:#fff">Opción 3 — GitHub Pages (link permanente):</strong><br>
+      1. Crea cuenta en <strong style="color:var(--red)">github.com</strong><br>
+      2. Nuevo repositorio → sube el HTML → activa Pages en Settings<br>
+      3. Link permanente gratis para siempre
+    </p>
+  </div>
+</footer>
+
+<!-- CART -->
+<div class="cart-overlay" id="cart-overlay" onclick="closeCartOutside(event)">
+  <div class="cart-panel">
+    <div class="cart-header">
+      <span class="cart-title">🛒 Tu selección</span>
+      <button class="close-btn" onclick="toggleCart()">✕</button>
+    </div>
+    <div id="cart-items-wrap" class="cart-items"></div>
+    <div class="cart-footer" id="cart-footer" style="display:none">
+      <div class="cart-total">Total: <span id="cart-total-val"></span></div>
+      <a class="wa-cart-btn" id="wa-cart-link" href="#" target="_blank">💬 Cotizar todo por WhatsApp</a>
+    </div>
+  </div>
+</div>
+
+<!-- PRODUCT MODAL -->
+<div class="modal-overlay" id="modal-overlay" onclick="closeModalOutside(event)">
+  <div class="modal" id="modal-box">
+    <div class="modal-img" id="modal-img"></div>
+    <div class="modal-body">
+      <div class="modal-brand" id="modal-brand"></div>
+      <div class="modal-name" id="modal-name"></div>
+      <div class="modal-price" id="modal-price"></div>
+      <div class="modal-sizes-title">TALLAS DISPONIBLES</div>
+      <div class="modal-sizes" id="modal-sizes"></div>
+      <div class="modal-btns">
+        <button class="modal-add" onclick="addFromModal()">+ Agregar a selección</button>
+        <button class="modal-close" onclick="closeModal()">✕</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ADMIN FAB -->
+<button class="admin-fab" onclick="openAdmin()" title="Agregar producto">＋</button>
+
+<!-- ADMIN PANEL -->
+<div class="admin-overlay" id="admin-overlay">
+  <div class="admin-panel">
+    <div id="admin-auth" class="admin-pass">
+      <h2>🔐 Panel Admin</h2>
+      <p>Ingresa tu clave para agregar/editar productos</p>
+      <input class="form-input" type="password" id="admin-pw" placeholder="Clave secreta" style="margin-bottom:10px"/>
+      <button class="btn-save" onclick="checkAdmin()">Entrar</button>
+      <button class="btn-cancel" onclick="closeAdmin()">Cancelar</button>
+    </div>
+    <div id="admin-form" style="display:none">
+      <h2>➕ Agregar Producto</h2>
+      <div class="form-group">
+        <label>MARCA</label>
+        <input class="form-input" id="f-brand" placeholder="Nike, Adidas, Jordan..."/>
+      </div>
+      <div class="form-group">
+        <label>NOMBRE DEL MODELO</label>
+        <input class="form-input" id="f-name" placeholder="Air Max 97, Dunk Low..."/>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>PRECIO CLP</label>
+          <input class="form-input" id="f-price" type="number" placeholder="49990"/>
+        </div>
+        <div class="form-group">
+          <label>CATEGORÍA</label>
+          <select class="form-input" id="f-cat">
+            <option value="nike">Nike</option>
+            <option value="jordan">Jordan</option>
+            <option value="adidas">Adidas</option>
+            <option value="new balance">New Balance</option>
+            <option value="vans">Vans</option>
+            <option value="converse">Converse</option>
+            <option value="puma">Puma</option>
+            <option value="ropa">Ropa</option>
+            <option value="accesorios">Accesorios</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>TALLAS (separadas por coma)</label>
+        <input class="form-input" id="f-sizes" placeholder="38,39,40,41,42,43,44"/>
+      </div>
+      <div class="form-group">
+        <label>EMOJI O URL DE IMAGEN</label>
+        <input class="form-input" id="f-img" placeholder="👟 o https://url-de-imagen.jpg"/>
+      </div>
+      <div class="form-group">
+        <label>BADGE</label>
+        <select class="form-input" id="f-badge">
+          <option value="">Sin badge</option>
+          <option value="new">NEW</option>
+          <option value="hot">🔥 HOT</option>
+        </select>
+      </div>
+      <button class="btn-save" onclick="saveProduct()">✅ Guardar producto</button>
+      <button class="btn-cancel" onclick="closeAdmin()">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── DEFAULT PRODUCTS ──────────────────────────────────────
+const DEFAULT_PRODUCTS = [
+  {id:1, brand:"Nike", name:"Air Force 1 Low", price:75000, cat:"nike", sizes:["38", "39", "40", "41", "42", "43", "44"], img:"https://image.goat.com/750/attachments/product_template_pictures/images/054/875/891/original/754997_00.png.png", badge:"new"},
+  {id:2, brand:"Nike", name:"Air Force 1 High", price:75000, cat:"nike", sizes:["38", "39", "40", "41", "42", "43", "44"], img:"https://image.goat.com/750/attachments/product_template_pictures/images/020/560/587/original/338392_00.png.png", badge:""},
+  {id:3, brand:"Nike", name:"Air Max 97", price:75000, cat:"nike", sizes:["38", "39", "40", "41", "42", "43", "44"], img:"https://image.goat.com/750/attachments/product_template_pictures/images/054/011/519/original/718717_00.png.png", badge:""},
+  {id:4, brand:"Nike", name:"Air Max 90", price:75000, cat:"nike", sizes:["38", "39", "40", "41", "42", "43", "44"], img:"https://image.goat.com/750/attachments/product_template_pictures/images/060/139/093/original/832361_00.png.png", badge:""},
+  {id:5, brand:"Nike", name:"Air Max 95", price:75000, cat:"nike", sizes:["38", "39", "40", "41", "42", "43", "44"], img:"https://image.goat.com/750/attachments/product_template_pictures/images/026/416/386/original/AT2865_100.png.png", badge:""},
+  {id:6, brand:"Nike", name:"Air Max Plus TN", price:75000, cat:"nike", sizes:["38", "39", "40", "41", "42", "43", "44"], img:"https://image.goat.com/750/attachments/product_template_pictures/images/012/553/991/original/604133_00.png.png", badge:"hot"},
+  {id:7, brand:"Nike", name:"Air Max 270", price:75000, cat:"nike", sizes:["38", "39", "40", "41", "42", "43", "44"], img:"https://image.goat.com/750/attachments/product_template_pictures/images/028/028/498/original/562064_00.png.png", badge:""},
+  {id:8, brand:"Nike", name:"Dunk Low White Black", price:75000, cat:"nike", sizes:["38", "39", "40", "41", "42", "43", "44"], img:"https://image.goat.com/750/attachments/product_template_pictures/images/057/463/891/original/726341_00.png.png", badge:"new"},
+  {id:9, brand:"Nike", name:"Dunk High", price:75000, cat:"nike", sizes:["38", "39", "40", "41", "42", "43", "44"], img:"https://image.goat.com/750/attachments/product_template_pictures/images/025/067/183/original/554724_00.png.png", badge:""},
+  {id:10, brand:"Nike", name:"Dunk Low Panda", price:75000, cat:"nike", sizes:["38", "39", "40", "41", "42", "43", "44"], img:"https://image.goat.com/750/attachments/product_template_pictures/images/068/829/205/original/780062_00.png.png", badge:"hot"},
+  {id:11, brand:"Nike", name:"SB Dunk Low Pro", price:75000, cat:"nike", sizes:["38", "39", "40", "41", "42", "43", "44"], img:"https://image.goat.com/750/attachments/product_template_pictures/images/015/756/908/original/304292_00.png.png", badge:""},
+  {id:12, brand:"Nike", name:"Blazer Mid 77 Vintage", price:75000, cat:"nike", sizes:["38", "39", "40", "41", "42", "43", "44"], img:"https://image.goat.com/750/attachments/product_template_pictures/images/067/745/736/original/779637_00.png.png", badge:""},
+  {id:13, brand:"Nike", name:"Air Huarache Run", price:75000, cat:"nike", sizes:["38", "39", "40", "41", "42", "43", "44"], img:"https://image.goat.com/750/attachments/product_template_pictures/images/013/254/621/original/318429_00.png.png", badge:""},
+  {id:14, brand:"Nike", name:"Air Presto", price:75000, cat:"nike", sizes:["38", "39", "40", "41", "42", "43", "44"], img:"https://image.goat.com/750/attachments/product_template_pictures/images/022/047/893/original/537989_00.png.png", badge:""},
+  {id:15, brand:"Nike", name:"Pegasus 40", price:75000, cat:"nike", sizes:["38", "39", "40", "41", "42", "43", "44"], img:"https://image.goat.com/750/attachments/product_template_pictures/images/087/041/820/original/831898_00.png.png", badge:""},
+  {id:16, brand:"Nike", name:"Zoom Vomero 5", price:75000, cat:"nike", sizes:["38", "39", "40", "41", "42", "43", "44"], img:"https://image.goat.com/750/attachments/product_template_pictures/images/094/817/614/original/846928_00.png.png", badge:"new"},
+  {id:20, brand:"Jordan", name:"Air Jordan 1 Retro High OG", price:75000, cat:"jordan", sizes:["39", "40", "41", "42", "43", "44"], img:"https://image.goat.com/750/attachments/product_template_pictures/images/042/728/036/original/673866_00.png.png", badge:"hot"},
+  {id:21, brand:"Jordan", name:"Air Jordan 1 Low", price:75000, cat:"jordan", sizes:["39", "40", "41", "42", "43", "44"], img:"https://image.goat.com/750/attachments/product_template_pictures/images/043/279/498/original/675770_00.png.png", badge:""},
+  {id:22, brand:"Jordan", name:"Air Jordan 1 Mid", price:75000, cat:"jordan", sizes:["39", "40", "41", "42", "43", "44"], img:"https://image.goat.com/750/attachments/product_template_pictures/images/033/609/980/original/554473_00.png.png", badge:"new"},
+  {id:23, brand:"Jordan", name:"Air Jordan 3 Retro", price:75000, cat:"jordan", sizes:["39", "40", "41", "42", "43", "44"], img:"https://image.goat.com/750/attachments/product_template_pictures/images/017/499/965/original/486714_00.png.png", badge:""},
+  {id:24, brand:"Jordan", name:"Air Jordan 4 Retro", price:75000, cat:"jordan", sizes:["39", "40", "41", "42", "43", "44"], img:"https://image.goat.com/750/attachments/product_template_pictures/images/015/567/335/original/CM100018M.png.png", badge:"hot"},
+  {id:25, brand:"Jordan", name:"Air Jordan 4 Bred", price:75000, cat:"jordan", sizes:["39", "40", "41", "42", "43", "44"], img:"https://image.goat.com/750/attachments/product_template_pictures/images/021/978/285/original/519610_00.png.png", badge:"new"},
+  {id:26, brand:"Jordan", name:"Air Jordan 5 Retro", price:75000, cat:"jordan", sizes:["39", "40", "41", "42", "43", "44"], img:"https://image.goat.com/750/attachments/product_template_pictures/images/016/617/435/original/450195_00.png.png", badge:""},
+  {id:27, brand:"Jordan", name:"Air Jordan 6 Retro", price:75000, cat:"jordan", sizes:["39", "40", "41", "42", "43", "44"], img:"https://image.goat.com/750/attachments/product_template_pictures/images/021/042/384/original/500924_00.png.png", badge:""},
+  {id:28, brand:"Jordan", name:"Air Jordan 11 Retro Low", price:75000, cat:"jordan", sizes:["39", "40", "41", "42", "43", "44"], img:"https://image.goat.com/750/attachments/product_template_pictures/images/044/568/745/original/679302_00.png.png", badge:"hot"},
+  {id:29, brand:"Jordan", name:"Air Jordan 11 Cool Grey", price:75000, cat:"jordan", sizes:["39", "40", "41", "42", "43", "44"], img:"https://image.goat.com/750/attachments/product_template_pictures/images/021/357/907/original/478963_00.png.png", badge:"new"},
+  {id:30, brand:"Jordan", name:"Air Jordan 12 Retro", price:75000, cat:"jordan", sizes:["39", "40", "41", "42", "43", "44"], img:"https://image.goat.com/750/attachments/product_template_pictures/images/010/748/879/original/130690_00.png.png", badge:""},
+  {id:31, brand:"Jordan", name:"Travis Scott AJ1 Low", price:75000, cat:"jordan", sizes:["39", "40", "41", "42", "43", "44"], img:"https://image.goat.com/750/attachments/product_template_pictures/images/050/498/498/original/718466_00.png.png", badge:"hot"},
+  {id:40, brand:"Adidas", name:"Yeezy Boost 350 V2 Zebra", price:75000, cat:"adidas", sizes:["38", "39", "40", "41", "42", "43", "44"], img:"https://image.goat.com/750/attachments/product_template_pictures/images/007/423/175/original/CP9654.png.png", badge:"new"},
+  {id:41, brand:"Adidas", name:"Yeezy Boost 350 V2 Cream", price:75000, cat:"adidas", sizes:["38", "39", "40", "41", "42", "43", "44"], img:"https://image.goat.com/750/attachments/product_template_pictures/images/007/451/703/original/CP9366.png.png", badge:""},
+  {id:42, brand:"Adidas", name:"Yeezy 500", price:75000, cat:"adidas", sizes:["38", "39", "40", "41", "42", "43", "44"], img:"https://image.goat.com/750/attachments/product_template_pictures/images/021/918/259/original/511508_00.png.png", badge:""},
+  {id:43, brand:"Adidas", name:"Yeezy Slide", price:75000, cat:"adidas", sizes:["38", "39", "40", "41", "42", "43", "44"], img:"https://image.goat.com/750/attachments/product_template_pictures/images/064/985/696/original/770053_00.png.png", badge:"hot"},
+  {id:44, brand:"Adidas", name:"Samba OG", price:75000, cat:"adidas", sizes:["38", "39", "40", "41", "42", "43", "44"], img:"https://image.goat.com/750/attachments/product_template_pictures/images/084/773/654/original/820040_00.png.png", badge:"new"},
+  {id:45, brand:"Adidas", name:"Gazelle Indoor", price:75000, cat:"adidas", sizes:["38", "39", "40", "41", "42", "43", "44"], img:"https://image.goat.com/750/attachments/product_template_pictures/images/088/699/890/original/832699_00.png.png", badge:""},
+  {id:46, brand:"Adidas", name:"Campus 00s", price:75000, cat:"adidas", sizes:["38", "39", "40", "41", "42", "43", "44"], img:"https://image.goat.com/750/attachments/product_template_pictures/images/082/085/003/original/811991_00.png.png", badge:"hot"},
+  {id:47, brand:"Adidas", name:"Forum Low", price:75000, cat:"adidas", sizes:["38", "39", "40", "41", "42", "43", "44"], img:"https://image.goat.com/750/attachments/product_template_pictures/images/063/197/168/original/762685_00.png.png", badge:""},
+  {id:48, brand:"Adidas", name:"Ultraboost 22", price:75000, cat:"adidas", sizes:["38", "39", "40", "41", "42", "43", "44"], img:"https://image.goat.com/750/attachments/product_template_pictures/images/066/855/516/original/774016_00.png.png", badge:""},
+  {id:49, brand:"Adidas", name:"NMD R1", price:75000, cat:"adidas", sizes:["38", "39", "40", "41", "42", "43", "44"], img:"https://image.goat.com/750/attachments/product_template_pictures/images/008/618/483/original/S31501.png.png", badge:""},
+  {id:50, brand:"Adidas", name:"Stan Smith", price:75000, cat:"adidas", sizes:["38", "39", "40", "41", "42", "43", "44"], img:"https://image.goat.com/750/attachments/product_template_pictures/images/007/100/741/original/M20324.png.png", badge:""},
+  {id:60, brand:"New Balance", name:"990 V6", price:75000, cat:"new balance", sizes:["38", "39", "40", "41", "42", "43"], img:"https://image.goat.com/750/attachments/product_template_pictures/images/085/773/034/original/824145_00.png.png", badge:""},
+  {id:61, brand:"New Balance", name:"550 White Green", price:75000, cat:"new balance", sizes:["38", "39", "40", "41", "42", "43"], img:"https://image.goat.com/750/attachments/product_template_pictures/images/065/588/736/original/770843_00.png.png", badge:"hot"},
+  {id:62, brand:"New Balance", name:"574", price:75000, cat:"new balance", sizes:["38", "39", "40", "41", "42", "43"], img:"https://image.goat.com/750/attachments/product_template_pictures/images/017/601/225/original/ML574EGG.png.png", badge:""},
+  {id:63, brand:"New Balance", name:"9060", price:75000, cat:"new balance", sizes:["38", "39", "40", "41", "42", "43"], img:"https://image.goat.com/750/attachments/product_template_pictures/images/076/916/302/original/795668_00.png.png", badge:"new"},
+  {id:64, brand:"New Balance", name:"2002R", price:75000, cat:"new balance", sizes:["38", "39", "40", "41", "42", "43"], img:"https://image.goat.com/750/attachments/product_template_pictures/images/059/501/484/original/734059_00.png.png", badge:""},
+  {id:65, brand:"New Balance", name:"1906R", price:75000, cat:"new balance", sizes:["38", "39", "40", "41", "42", "43"], img:"https://image.goat.com/750/attachments/product_template_pictures/images/077/059/163/original/796237_00.png.png", badge:"hot"},
+  {id:66, brand:"New Balance", name:"327", price:75000, cat:"new balance", sizes:["38", "39", "40", "41", "42", "43"], img:"https://image.goat.com/750/attachments/product_template_pictures/images/053/064/088/original/723625_00.png.png", badge:""},
+  {id:70, brand:"Vans", name:"Old Skool", price:75000, cat:"vans", sizes:["36", "37", "38", "39", "40", "41", "42", "43"], img:"https://image.goat.com/750/attachments/product_template_pictures/images/007/991/817/original/VN000D3HY28.png.png", badge:""},
+  {id:71, brand:"Vans", name:"Sk8-Hi", price:75000, cat:"vans", sizes:["36", "37", "38", "39", "40", "41", "42", "43"], img:"https://image.goat.com/750/attachments/product_template_pictures/images/007/100/527/original/VN000D5IB8C.png.png", badge:""},
+  {id:72, brand:"Vans", name:"Era", price:75000, cat:"vans", sizes:["36", "37", "38", "39", "40", "41", "42", "43"], img:"https://image.goat.com/750/attachments/product_template_pictures/images/007/991/806/original/VN000EWZW00.png.png", badge:"new"},
+  {id:73, brand:"Vans", name:"Slip-On", price:75000, cat:"vans", sizes:["36", "37", "38", "39", "40", "41", "42", "43"], img:"https://image.goat.com/750/attachments/product_template_pictures/images/007/991/823/original/VN000EYEW00.png.png", badge:""},
+  {id:74, brand:"Vans", name:"Authentic", price:75000, cat:"vans", sizes:["36", "37", "38", "39", "40", "41", "42", "43"], img:"https://image.goat.com/750/attachments/product_template_pictures/images/007/991/790/original/VN000EE3W00.png.png", badge:""},
+  {id:80, brand:"Converse", name:"Chuck Taylor All Star High", price:75000, cat:"converse", sizes:["36", "37", "38", "39", "40", "41", "42", "43"], img:"https://image.goat.com/750/attachments/product_template_pictures/images/015/094/791/original/M9160C.png.png", badge:""},
+  {id:81, brand:"Converse", name:"Chuck Taylor All Star Low", price:75000, cat:"converse", sizes:["36", "37", "38", "39", "40", "41", "42", "43"], img:"https://image.goat.com/750/attachments/product_template_pictures/images/015/094/782/original/M7652C.png.png", badge:"new"},
+  {id:82, brand:"Converse", name:"Chuck 70 High", price:75000, cat:"converse", sizes:["36", "37", "38", "39", "40", "41", "42", "43"], img:"https://image.goat.com/750/attachments/product_template_pictures/images/007/557/491/original/162050C.png.png", badge:""},
+  {id:83, brand:"Converse", name:"Run Star Hike High", price:75000, cat:"converse", sizes:["36", "37", "38", "39", "40", "41", "42", "43"], img:"https://image.goat.com/750/attachments/product_template_pictures/images/042/043/820/original/672498_00.png.png", badge:"hot"},
+  {id:90, brand:"Puma", name:"Suede Classic", price:75000, cat:"puma", sizes:["38", "39", "40", "41", "42", "43"], img:"https://image.goat.com/750/attachments/product_template_pictures/images/007/098/856/original/352634_01.png.png", badge:""},
+  {id:91, brand:"Puma", name:"RS-X", price:75000, cat:"puma", sizes:["38", "39", "40", "41", "42", "43"], img:"https://image.goat.com/750/attachments/product_template_pictures/images/023/706/640/original/522011_00.png.png", badge:"new"},
+  {id:92, brand:"Puma", name:"Clyde", price:75000, cat:"puma", sizes:["38", "39", "40", "41", "42", "43"], img:"https://image.goat.com/750/attachments/product_template_pictures/images/007/098/853/original/168799_03.png.png", badge:""},
+  {id:100, brand:"Ropa", name:"Polera Oversized Negra", price:75000, cat:"ropa", sizes:["S", "M", "L", "XL", "XXL"], img:"https://images.unsplash.com/photo-1618354691373-d851c5c3a990?w=600&q=80", badge:""},
+  {id:101, brand:"Ropa", name:"Polera Manga Larga", price:75000, cat:"ropa", sizes:["S", "M", "L", "XL", "XXL"], img:"https://images.unsplash.com/photo-1581791538161-8a2975b7b2c3?w=600&q=80", badge:""},
+  {id:102, brand:"Ropa", name:"Pantalón Cargo", price:75000, cat:"ropa", sizes:["S", "M", "L", "XL", "XXL"], img:"https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?w=600&q=80", badge:"new"},
+  {id:103, brand:"Ropa", name:"Jogger Streetwear", price:75000, cat:"ropa", sizes:["S", "M", "L", "XL", "XXL"], img:"https://images.unsplash.com/photo-1552902865-b72c031ac5ea?w=600&q=80", badge:""},
+  {id:104, brand:"Ropa", name:"Hoodie Básico", price:75000, cat:"ropa", sizes:["S", "M", "L", "XL", "XXL"], img:"https://images.unsplash.com/photo-1556821840-3a63f15732ce?w=600&q=80", badge:"hot"},
+  {id:105, brand:"Ropa", name:"Parka Impermeable", price:75000, cat:"ropa", sizes:["S", "M", "L", "XL", "XXL"], img:"https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=600&q=80", badge:""},
+  {id:110, brand:"Accesorios", name:"Gorra Snapback", price:75000, cat:"accesorios", sizes:["Única"], img:"https://images.unsplash.com/photo-1588850561407-ed78c282e89b?w=600&q=80", badge:""},
+  {id:111, brand:"Accesorios", name:"Gorra Dad Hat", price:75000, cat:"accesorios", sizes:["Única"], img:"https://images.unsplash.com/photo-1521369909029-2afed882baee?w=600&q=80", badge:"new"},
+  {id:112, brand:"Accesorios", name:"Calcetines Pack x3", price:75000, cat:"accesorios", sizes:["Única"], img:"https://images.unsplash.com/photo-1586350977771-b3b0abd50c82?w=600&q=80", badge:""},
+  {id:113, brand:"Accesorios", name:"Cinturón Táctico", price:75000, cat:"accesorios", sizes:["Única"], img:"https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=600&q=80", badge:""},
+  {id:114, brand:"Accesorios", name:"Mochila Streetwear", price:75000, cat:"accesorios", sizes:["Única"], img:"https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=600&q=80", badge:"hot"}
+];
+
+// ── STATE ────────────────────────────────────────────────
+// Funciona tanto en archivo local como subido a internet
+function loadProducts(){
+  try {
+    const saved = localStorage.getItem('jinbye_products');
+    return saved ? JSON.parse(saved) : DEFAULT_PRODUCTS;
+  } catch(e){ return DEFAULT_PRODUCTS; }
+}
+function save(){
+  try { localStorage.setItem('jinbye_products', JSON.stringify(products)); } catch(e){}
+}
+let products   = loadProducts();
+let cart       = [];
+let curFilter  = 'todos';
+let curProduct = null;
+let selSize    = null;
+const ADMIN_PW = 'jinbye2024'; // ← cambia esta clave
+
+// ── RENDER ───────────────────────────────────────────────
+function fmt(n){ return '$'+Number(n).toLocaleString('es-CL'); }
+
+function renderGrid(){
+  const q   = (document.getElementById('search-box')||{}).value?.toLowerCase()||'';
+  const grid= document.getElementById('product-grid');
+  const nr  = document.getElementById('no-results');
+  const lbl = document.getElementById('count-label');
+
+  let list = products;
+  if(curFilter!=='todos') list=list.filter(p=>p.cat===curFilter);
+  if(q) list=list.filter(p=>(p.name+p.brand).toLowerCase().includes(q));
+
+  lbl.textContent = curFilter==='todos'?`Todos los productos (${list.length})`:
+    `${curFilter.charAt(0).toUpperCase()+curFilter.slice(1)} (${list.length})`;
+
+  if(!list.length){grid.innerHTML='';nr.style.display='block';return;}
+  nr.style.display='none';
+
+  grid.innerHTML = list.map(p=>`
+    <div class="card" onclick="openModal(${p.id})">
+      <div class="card-img">
+        ${p.img&&p.img.startsWith('http')?`<img src="${p.img}" alt="${p.name}" loading="lazy"/>`:`<span style="font-size:54px">${p.img||'👟'}</span>`}
+        ${p.badge==='new'?'<span class="badge-new">NEW</span>':''}
+        ${p.badge==='hot'?'<span class="badge-hot">🔥 HOT</span>':''}
+      </div>
+      <div class="card-body">
+        <div class="card-brand">${p.brand}</div>
+        <div class="card-name">${p.name}</div>
+        <div class="card-sizes">${(p.sizes||[]).slice(0,4).map(s=>`<span class="size-tag">${s}</span>`).join('')}${(p.sizes||[]).length>4?`<span class="size-tag">+${p.sizes.length-4}</span>`:''}</div>
+        <div class="card-footer" style="margin-top:10px">
+          <span class="card-price">${fmt(p.price)}</span>
+          <button class="add-btn" onclick="event.stopPropagation();quickAdd(${p.id})">+ Cotizar</button>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+// ── FILTER / SEARCH ──────────────────────────────────────
+function setFilter(f,btn){
+  curFilter=f;
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderGrid();
+}
+function filterProducts(){ renderGrid(); }
+
+// ── MODAL ────────────────────────────────────────────────
+function openModal(id){
+  curProduct = products.find(p=>p.id===id);
+  if(!curProduct) return;
+  selSize=null;
+  const mi=document.getElementById('modal-img');
+  mi.innerHTML = curProduct.img&&curProduct.img.startsWith('http')
+    ?`<img src="${curProduct.img}" alt="${curProduct.name}"/>`
+    :`<span style="font-size:96px">${curProduct.img||'👟'}</span>`;
+  document.getElementById('modal-brand').textContent = curProduct.brand;
+  document.getElementById('modal-name').textContent  = curProduct.name;
+  document.getElementById('modal-price').textContent = fmt(curProduct.price);
+  document.getElementById('modal-sizes').innerHTML   =
+    (curProduct.sizes||[]).map(s=>`<div class="msize" onclick="selS(this,'${s}')">${s}</div>`).join('');
+  document.getElementById('modal-overlay').classList.add('open');
+}
+function selS(el,s){ selSize=s; document.querySelectorAll('.msize').forEach(m=>m.classList.remove('sel')); el.classList.add('sel'); }
+function closeModal(){ document.getElementById('modal-overlay').classList.remove('open'); curProduct=null; selSize=null; }
+function closeModalOutside(e){ if(e.target===document.getElementById('modal-overlay')) closeModal(); }
+function addFromModal(){
+  if(!curProduct) return;
+  addToCart(curProduct, selSize||'Consultar talla');
+  closeModal();
+}
+function quickAdd(id){
+  const p=products.find(x=>x.id===id);
+  if(p) addToCart(p,'Consultar talla');
+}
+
+// ── CART ─────────────────────────────────────────────────
+function addToCart(p, size){
+  cart.push({id:p.id,name:p.name,brand:p.brand,price:p.price,size,img:p.img||'👟'});
+  updateCartUI();
+  const cartO=document.getElementById('cart-overlay');
+  cartO.classList.add('open');
+}
+function removeFromCart(idx){ cart.splice(idx,1); updateCartUI(); }
+function updateCartUI(){
+  document.getElementById('cart-count').textContent=cart.length;
+  const wrap=document.getElementById('cart-items-wrap');
+  const footer=document.getElementById('cart-footer');
+  if(!cart.length){
+    wrap.innerHTML='<div class="cart-empty"><div class="cart-empty-icon">🛒</div><p>Aún no seleccionaste nada</p></div>';
+    footer.style.display='none';return;
+  }
+  wrap.innerHTML=cart.map((c,i)=>`
+    <div class="cart-item">
+      <div class="ci-img">${c.img.startsWith('http')?`<img src="${c.img}" style="width:100%;height:100%;object-fit:cover;border-radius:8px">`:`${c.img}`}</div>
+      <div>
+        <div class="ci-name">${c.brand} ${c.name}</div>
+        <div class="ci-price">Talla: ${c.size} · ${fmt(c.price)}</div>
+      </div>
+      <button class="ci-remove" onclick="removeFromCart(${i})">✕</button>
+    </div>`).join('');
+  const total=cart.reduce((s,c)=>s+Number(c.price),0);
+  document.getElementById('cart-total-val').textContent=fmt(total);
+  footer.style.display='block';
+  const msg=encodeURIComponent('Hola! Me interesa cotizar:\n'+cart.map((c,i)=>`${i+1}. ${c.brand} ${c.name} (Talla: ${c.size}) - ${fmt(c.price)}`).join('\n')+'\n\n¿Tienen disponibilidad?');
+  document.getElementById('wa-cart-link').href=`https://wa.me/56984268674?text=${msg}`;
+}
+function toggleCart(){ document.getElementById('cart-overlay').classList.toggle('open'); }
+function closeCartOutside(e){ if(e.target===document.getElementById('cart-overlay')) toggleCart(); }
+
+// ── ADMIN ────────────────────────────────────────────────
+function openAdmin(){ document.getElementById('admin-overlay').classList.add('open'); }
+function closeAdmin(){
+  document.getElementById('admin-overlay').classList.remove('open');
+  document.getElementById('admin-auth').style.display='block';
+  document.getElementById('admin-form').style.display='none';
+  document.getElementById('admin-pw').value='';
+}
+function checkAdmin(){
+  if(document.getElementById('admin-pw').value===ADMIN_PW){
+    document.getElementById('admin-auth').style.display='none';
+    document.getElementById('admin-form').style.display='block';
+  } else { alert('Clave incorrecta'); }
+}
+function saveProduct(){
+  const brand = document.getElementById('f-brand').value.trim();
+  const name  = document.getElementById('f-name').value.trim();
+  const price = document.getElementById('f-price').value;
+  const cat   = document.getElementById('f-cat').value;
+  const sizes = document.getElementById('f-sizes').value.split(',').map(s=>s.trim()).filter(Boolean);
+  const img   = document.getElementById('f-img').value.trim()||'👟';
+  const badge = document.getElementById('f-badge').value;
+  if(!brand||!name||!price){alert('Completa marca, nombre y precio');return;}
+  const newP  = {id:Date.now(),brand,name,price:Number(price),cat,sizes,img,badge};
+  products.unshift(newP);
+  save();
+  renderGrid();
+  closeAdmin();
+  // clear form
+  ['f-brand','f-name','f-price','f-sizes','f-img'].forEach(id=>document.getElementById(id).value='');
+}
+
+// ── INIT ─────────────────────────────────────────────────
+renderGrid();
+updateCartUI();
+</script>
+</body>
+</html>
